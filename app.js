@@ -13,7 +13,7 @@ function sleep (milliseconds) {
   }
 }
 
-const flowLoopback = addKeyword(['hola123'])
+const flowLoopback = addKeyword(['@botest'])
   .addAnswer(
     [
       'Bueno, ahí va, agarrate 🫠'
