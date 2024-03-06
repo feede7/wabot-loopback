@@ -13,10 +13,12 @@ function sleep (milliseconds) {
   }
 }
 
+const TEST_TRIGGER_WORD = '@botestfede'
+
 /**
  * Bot que testea Bots (Fede)
  */
-const flowLoopback = addKeyword(['@botest'])
+const flowLoopback = addKeyword([TEST_TRIGGER_WORD])
   .addAction(
     null,
     async (ctx, { flowDynamic }) => {
