@@ -34,8 +34,9 @@ const flowLoopback = addKeyword(['hola123'])
       }
 
       for (let i = start; i < msgSplit.length; i++) {
-        console.log(`${msgSplit[i]}`)
-        await flowDynamic([{ body: msgSplit[i], delay }])
+        msg = msgSplit[i].replaceAll('%20', ' ')
+        console.log(`${msg}`)
+        await flowDynamic([{ body: msg, delay }])
       }
     }
   )
