@@ -13,11 +13,11 @@ function sleep (milliseconds) {
   }
 }
 
+/**
+ * Bot que testea Bots (Fede)
+ */
 const flowLoopback = addKeyword(['@botest'])
-  .addAnswer(
-    [
-      'Bueno, ahí va, agarrate 🫠'
-    ],
+  .addAction(
     null,
     async (ctx, { flowDynamic }) => {
       const msgSplit = ctx.body.split(' ')
