@@ -25,12 +25,13 @@ const flowLoopback = addKeyword(['hola123'])
       let delay = 0
       console.log(`mensaje: ${ctx.body}`)
 
-      if (~isNaN(parseInt(msgSplit[1]))) {
-        start = 2
-        delay = parseInt(msgSplit[1])
-      } else {
+      if (isNaN(parseInt(msgSplit[1]))) {
         start = 1
         delay = 1000
+      } else {
+        start = 2
+        delay = parseInt(msgSplit[1])
+        console.log('delay' + `${delay}`)
       }
 
       for (let i = start; i < msgSplit.length; i++) {
