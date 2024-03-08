@@ -37,16 +37,47 @@ const flowLoopback = addKeyword([TEST_TRIGGER_WORD])
       }
 
       for (let i = start; i < msgSplit.length; i++) {
-        msg = msgSplit[i].replaceAll('%20', ' ')
+        const msg = msgSplit[i].replaceAll('%20', ' ')
         console.log(`${msg}`)
         await flowDynamic([{ body: msg, delay }])
       }
     }
   )
 
+const flowSecundario = addKeyword(['cacahuate'])
+  .addAnswer([
+    'Esaaaa, muy bien!'
+  ]
+  )
+
+const MAX_INTENTOS = 4
+let intentos = MAX_INTENTOS
+
+const flowPrimario = addKeyword(['almohada'])
+  .addAnswer(['Bien, ahora tenés que decir *cacahuate*'], null, null)
+  .addAction({ capture: true },
+    async (ctx, { flowDynamic, fallBack, gotoFlow }) => {
+      console.log(`msg2: ${ctx.body}`)
+      if (ctx.body === 'cacahuate') {
+        intentos = MAX_INTENTOS
+        await gotoFlow(flowSecundario)
+      } else {
+        intentos--
+        if (intentos > 0) {
+          await flowDynamic([{ body: `Dale, *cacahuate* tenés que escribir!` }])
+          return fallBack()
+        } else {
+          intentos = 4
+          await flowDynamic([{ body: 'Me cansé, perdiste!' }])
+        }
+      }
+    }
+
+  )
+
 const main = async () => {
   const adapterDB = new MockAdapter()
-  const adapterFlow = createFlow([flowLoopback])
+  const adapterFlow = createFlow([flowLoopback, flowPrimario])
   const adapterProvider = createProvider(BaileysProvider)
 
   createBot({
@@ -59,15 +90,11 @@ const main = async () => {
   console.log(`que onda ${HOLA.replace('ped', 'cac')}`)
 
   const msgSplit = 'habia una vez un circo'.split(' ')
-  for (let i = 1; i < msgSplit.length; i++) {
-    console.log(`${msgSplit[i]}`)
-    sleep(500)
-  }
 
   for (const msg of msgSplit) {
     if (msg !== 'habia') {
       console.log(`${msg}`)
-      sleep(500)
+      sleep(100)
     }
   }
 
